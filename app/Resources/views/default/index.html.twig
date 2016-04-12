@@ -1,0 +1,105 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="jumbotron">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>Form Events</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-6">
+                {{ form_start(form) }}
+                {{ form_errors(form) }}
+
+                <div class="form-group">
+                    {{ form_label(form.annee) }}
+                    {{ form_widget(form.annee, {attr:{class:'form-control'}}) }}
+                    {{ form_errors(form.annee) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.faculte) }}
+                    {{ form_widget(form.faculte, {attr:{class:'form-control'}}) }}
+                    {{ form_errors(form.faculte) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.filiere) }}
+                    {{ form_widget(form.filiere, {attr:{class:'form-control'}}) }}
+                    {{ form_errors(form.filiere) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.classe) }}
+                    {{ form_widget(form.classe, {attr:{class:'form-control'}}) }}
+                    {{ form_errors(form.classe) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_widget(form.submit, {attr:{class:'btn btn-primary'}}) }}
+                </div>
+
+                {{ form_rest(form) }}
+                {{ form_end(form) }}
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(function () {
+            var $falcultes = $("#{{ form.faculte.vars.id }}");
+            var filieresId = "{{ form.filiere.vars.id }}";
+            var classesId = "{{ form.classe.vars.id }}";
+            var $filieres = $("#" + filieresId);
+            var $classes = $("#" + classesId);
+
+            $falcultes.on("change", function (evt) {
+                var data = {};
+                data["faculte_id"] = $falcultes.val();
+                $.ajax({
+                    url: "{{ path('api_get_filieres') }}",
+                    type: "POST",
+                    data: data,
+                    success: function (datas) {
+                        $filieres.find('option').remove();
+                        datas.forEach(function (e) {
+                            var o = $("<option/>", {text: e.nom, value: e.id});
+                            o.appendTo($filieres);
+                        })
+                    }
+                });
+            });
+
+            $filieres.on("change", function (evt) {
+                var data = {};
+                data["filiere_id"] = $filieres.val();
+                console.log("filieres");
+                $.ajax({
+                    url: "{{ path('api_get_classes') }}",
+                    type: "POST",
+                    data: data,
+                    success: function (datas) {
+                        $classes.find('option').remove();
+                        datas.forEach(function (e) {
+                            var o = $("<option/>", {text: e.nom, value: e.id});
+                            o.appendTo($classes);
+                        })
+                    }
+                });
+            });
+
+        })
+    </script>
+
+{% endblock %}

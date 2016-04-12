@@ -1,0 +1,21 @@
+{
+  "name": "fomrevents",
+  "authors": [
+    "Nicolas Canfrere <canfrere.nicolas@orange.fr>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.6"
+  }
+}

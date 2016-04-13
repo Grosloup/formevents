@@ -63,6 +63,8 @@
             var classesId = "{{ form.classe.vars.id }}";
             var $filieres = $("#" + filieresId);
             var $classes = $("#" + classesId);
+            var $submitBtn = $("#{{ form.submit.vars.id }}");
+            $submitBtn.attr("disabled", "disabled");
 
             $falcultes.on("change", function (evt) {
                 var data = {};
@@ -84,7 +86,6 @@
             $filieres.on("change", function (evt) {
                 var data = {};
                 data["filiere_id"] = $filieres.val();
-                console.log("filieres");
                 $.ajax({
                     url: "{{ path('api_get_classes') }}",
                     type: "POST",
@@ -94,9 +95,16 @@
                         datas.forEach(function (e) {
                             var o = $("<option/>", {text: e.nom, value: e.id});
                             o.appendTo($classes);
-                        })
+                        });
+                        $submitBtn.attr("disabled", false);
                     }
                 });
+            });
+
+            $submitBtn.on("click", function (e) {
+                if($classes.val() == null){
+                    e.preventDefault();
+                }
             });
 
         })

@@ -3,6 +3,7 @@ fomrevents
 
 - cloner / télécharger le zip
 - 'cd' dans le répertoire
+- dans un terminal : bower install
 - dans un terminal : composer install
 - configurer une base de données dans 'parameters.yml'
 - dans un terminal : php bin/console doctrine:database:create
